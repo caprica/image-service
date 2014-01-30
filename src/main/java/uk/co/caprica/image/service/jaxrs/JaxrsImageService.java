@@ -59,12 +59,12 @@ public class JaxrsImageService implements ImageService {
         this.client = ClientBuilder.newClient();
         this.acceptedResponseTypes = getKnownContentTypes();
         this.imageMessageBodyReader = new BufferedImageMessageBodyReader(acceptedResponseTypes);
+        this.client.register(this.imageMessageBodyReader);
     }
 
     @Override
     public BufferedImage image(String url) {
         return client
-            .register(imageMessageBodyReader)
             .target(url)
             .request(acceptedResponseTypes)
             .get(BufferedImage.class);
